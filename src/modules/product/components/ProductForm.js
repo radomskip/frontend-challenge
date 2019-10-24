@@ -62,16 +62,16 @@ class ProductForm extends Component {
     if(id) {
       return (
         <React.Fragment>
-          <Button size="small">SALVAR ALTERAÇÕES</Button>
-          <Button size="small" type="danger" className="ml--lg">APAGAR</Button>
-          <Button size="small" onClick={this.backToListing} className="ml--lg" outline>CANCELAR</Button>
+          <Button size="small">SAVE UPDATES</Button>
+          <Button size="small" type="danger" className="ml--lg">REMOVE</Button>
+          <Button size="small" onClick={this.backToListing} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <Button size="small">PUBLICAR PRODUTO</Button>
-          <Button size="small" className="ml--lg" outline>CANCELAR</Button>
+          <Button size="small">SAVE PRODUCT</Button>
+          <Button size="small" className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     }
@@ -104,8 +104,8 @@ class ProductForm extends Component {
 
         <Grid block>
           <div>
-            <InputGroup value={name} validate={inputValidation} onChange={this.inputChange} label="Nome" name="name" placeholder="Ex: Chaveiro de plástico de Budha"/>
-            <Editor value={description} validate={inputValidation} onChange={this.onChange} label="Descrição" name="description"/> 
+            <InputGroup value={name} validate={inputValidation} onChange={this.inputChange} label="Name" name="name" placeholder="Ex: Chaveiro de plástico de Budha"/>
+            <Editor value={description} validate={inputValidation} onChange={this.onChange} label="Description" name="description"/> 
           </div>
 
         </Grid>
@@ -113,15 +113,15 @@ class ProductForm extends Component {
 
         <Grid block>
         <div className="col-1-4">
-            <InputGroupCurrencyIcon validate={inputValidation} value={price} onChange={this.inputChange} name="price" label="Preço Original" icon="R$" placeholder="0,00"/>
+            <InputGroupCurrencyIcon validate={inputValidation} value={price} onChange={this.inputChange} name="price" label="Original Price" icon="$" placeholder="0,00"/>
           </div>
 
           <div className="col-1-4">
-            <InputGroupCurrencyIcon validate={inputValidation} value={promotionalPrice} onChange={this.inputChange} name="promotionalPrice" label="Preço Promocional" icon="R$" placeholder="0,00"/>
+            <InputGroupCurrencyIcon validate={inputValidation} value={promotionalPrice} onChange={this.inputChange} name="promotionalPrice" label="Promocional Price" icon="$" placeholder="0,00"/>
           </div>
           
           <div className="col-1-4">
-            <InputGroup validate={inputValidation} value={stock} onChange={this.inputChange} type="number" name="stock" label="Estoque"/>
+            <InputGroup validate={inputValidation} value={stock} onChange={this.inputChange} type="number" name="stock" label="Stock"/>
           </div>
         </Grid>
 

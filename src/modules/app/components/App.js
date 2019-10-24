@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <Router history={History}>
-        <BrowserRouter basename={'/nuvemshop'}>    
+        <BrowserRouter basename={'/tiendanube'}>    
           <Routing/>
         </BrowserRouter>
       </Router>

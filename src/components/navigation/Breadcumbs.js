@@ -17,7 +17,7 @@ class Breadcumbs extends Component {
       const route = Routes.find(item => {
         const info = {
           exact: true,
-          path: '/nuvemshop' + item.path
+          path: '/tiendanube' + item.path
         };
         return matchPath(data, info);
       });

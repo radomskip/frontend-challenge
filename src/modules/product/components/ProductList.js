@@ -93,8 +93,8 @@ class ProductList extends Component {
               </div>
             </td>
             <td>{item.stock}</td>
-            <td>R$ {item.price}</td>
-            <td>R$ {item.promotionalPrice}</td>
+            <td>$ {item.price}</td>
+            <td>$ {item.promotionalPrice}</td>
             <td>{item.price}</td>
             <td>
               <Link to={`/products/edit/${item.id}`}><ButtonIcon size="small" transparent icon='edit'>Edit</ButtonIcon></Link>

@@ -7,7 +7,7 @@ class Sidebar extends Component {
   state = {
     sidebarOpen: true,
     userName: 'Martín Palombo',
-    storeName: 'Nome da minha loja',
+    storeName: 'My Store Name',
     storeLink: 'teste-brasil.lojavirtual.seudominino.lojavirtual.com.br.compremania',
     storeLogo: 'https://image.ibb.co/dBScXd/Captura_de_Tela_2018_05_31_a_s_14_51_07.png',
     email: null,
