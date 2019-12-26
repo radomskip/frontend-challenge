@@ -1,49 +1,22 @@
 import React, { Component } from 'react';
 import classname from 'classname';
 import { Link } from 'react-router-dom';
-import { matchPath } from 'react-router'
-
-import Routes from 'modules/app/routes';
-import isEmpty from 'lodash/isEmpty';
-
 
 class Breadcumbs extends Component {
-  mountBreadcumb() {
-    const breadcumbs = [];
-    let data = window.location.pathname;
-
-    while(data !== '') {
-      
-      const route = Routes.find(item => {
-        const info = {
-          exact: true,
-          path: '/tiendanube' + item.path
-        };
-        return matchPath(data, info);
-      });
-      if(!isEmpty(route)) {
-        let comp;
-        if (data !== window.location.pathname) {
-          comp = <li key={route.path}><Link to={route.path}> {route.title} </Link></li>;
-        } else {
-          comp = <li key={route.path}> {route.title} </li>;          
-        }
-        breadcumbs.push(comp);
-      }
-
-      data = data.substring(0, data.lastIndexOf("/"));                    
-    }
-
-    return breadcumbs.reverse();
-  }
-
   render() {
-    const breadcumbs = this.mountBreadcumb();
     const { className } = this.props;
     const classComponent = classname('breadcumbs', className);
+
+    const CurrentBreadcumb = () => {
+      return window.location.pathname.includes('edit')
+      ? <a href="#">Edit Product</a>
+      : <a href="#">Add Product</a>;
+    }
+
     return (
       <ul className={classComponent}>
-        {breadcumbs}
+        <li><Link to={'/products'}>My Products</Link></li>
+        <li><CurrentBreadcumb/></li>
       </ul>
     )
   }

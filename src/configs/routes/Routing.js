@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
-import { Switch, Redirect } from 'react-router-dom';
-
-import LayoutRoute from './LayoutRoute';
-
+import React from 'react';
+import { Switch, Redirect, Route } from 'react-router-dom';
+import { ProductList, ProductForm } from 'modules/product';
 import { Logged, External } from 'components/layout';
-import Routes from 'modules/app/routes';
 
-class Routing extends Component {
-  render() {
-    const routes = Routes.map((item, index) => {
-      const Layout = (item.layout === 'logged') ? Logged : External
-      return <LayoutRoute exact path={item.path} key={item.path} Component={item.component} Layout={Layout} />
-    });
+const Routing = () => (
+  <Switch>   
+    <Route exact path={'/products'} render={routerProps => (
+      <Logged>
+        <ProductList {...routerProps} />
+      </Logged>
+    )} />
 
-    return (
-      <Switch>
-        {routes}
-        <Redirect to={"/products"} />
-      </Switch>
-    );
-  }
-}
+    <Route exact path={'/products/new'} render={routerProps => (
+      <Logged>
+        <ProductForm {...routerProps} />
+      </Logged>
+    )} />
+
+    <Route exact path={'/products/edit/:id'} render={routerProps => (
+      <Logged>
+        <ProductForm {...routerProps} />
+      </Logged>
+    )} />
+
+    <Redirect to={"/products"} />
+  </Switch>
+)
 
 export default Routing;

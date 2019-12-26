@@ -14,7 +14,7 @@ class ProductList extends Component {
     page: 0,
     maxItems: 8,
     products: [{
-      id: '',
+      id: '1',
       name: '',
       stock: '',
       price: '',
