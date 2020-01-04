@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ProductContext } from 'contexts'
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-
-
 import { Grid } from 'components/grid';
 import { Table } from 'components/table'; 
 import { Checkbox } from 'components/input';
@@ -11,13 +9,11 @@ import { ButtonIcon } from 'components/button';
 import { Image } from 'components/image';
 import { Pagination } from 'components/pagination';
 
-
-
 const ProductList = () => {
 
   const [pagination, setPagination] = useState( { page: 0,  maxItems: 3});
   const { page, maxItems } = pagination;
-  const {products, deleteProduct} = useContext(ProductContext);
+  const {products, dispatch} = useContext(ProductContext);
 
   const changePage = page => {
     setPagination(prevState => {
@@ -74,7 +70,7 @@ const ProductList = () => {
           <td>{item.price}</td>
           <td>
             <Link to={`/products/edit/${item.id}`}><ButtonIcon size="small" transparent icon='edit'>Edit</ButtonIcon></Link>
-            <button className='button button--sm' onClick={ ()=> deleteProduct(item.id)}>
+            <button className='button button--sm' onClick={ () => dispatch({ type:'REMOVE_PRODUCT', id: item.id})}>
               <div className='text'>Remove</div>
             </button>
           </td>

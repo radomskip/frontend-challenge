@@ -1,5 +1,6 @@
-import React, { createContext, useState } from 'react';
- 
+import React, { createContext, useReducer } from 'react';
+import {ProductReducer} from 'reducers';
+
 export const ProductContext = createContext();
 
 const ProductContextProvider = (props) => {
@@ -53,14 +54,19 @@ const ProductContextProvider = (props) => {
         },
       ];
 
+/*
     const [products, setProducts] = useState(initProducts);   
 
     const deleteProduct = (id) => { 
         setProducts(products.filter( (p) => p.id !== id ))
     };
-    
+*/    
+    const [products, dispatch] = useReducer(ProductReducer,[],()=>{
+        return initProducts;
+    });
+
     return (
-        <ProductContext.Provider value={{products: [...products], deleteProduct}}>
+        <ProductContext.Provider value={{products, dispatch}}>
             {props.children}
         </ProductContext.Provider>
     );
