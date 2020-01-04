@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Header, Sidebar } from 'components/navigation';
 import { ListItemLink } from 'components/list';
