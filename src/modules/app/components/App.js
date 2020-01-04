@@ -3,9 +3,7 @@ import { BrowserRouter, Router } from 'react-router-dom';
 
 import { History, Routing } from 'configs';
 
-
-class App extends Component {
-  render() {
+function App() {
     return (
       <Router history={History}>
         <BrowserRouter basename={'/tiendanube'}>    
@@ -13,7 +11,7 @@ class App extends Component {
         </BrowserRouter>
       </Router>
     )
-  }
 };
+
 
 export default App;
