@@ -48,15 +48,19 @@ const ProductContextProvider = (props) => {
           name: 'Oleo',
           stock: '6',
           price: '12.70',
-          promotionalPrice: '10.00',
+          promotionalPrice: '10.01',
           images: []
         },
       ];
 
-    const [products] = useState({ products : initProducts});      
+    const [products, setProducts] = useState(initProducts);   
+
+    const deleteProduct = (id) => { 
+        setProducts(products.filter( (p) => p.id !== id ))
+    };
     
     return (
-        <ProductContext.Provider value={{...products}}>
+        <ProductContext.Provider value={{products: [...products], deleteProduct}}>
             {props.children}
         </ProductContext.Provider>
     );

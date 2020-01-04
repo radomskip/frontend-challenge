@@ -17,8 +17,7 @@ const ProductList = () => {
 
   const [pagination, setPagination] = useState( { page: 0,  maxItems: 3});
   const { page, maxItems } = pagination;
-
-  const {products} = useContext(ProductContext);
+  const {products, deleteProduct} = useContext(ProductContext);
 
   const changePage = page => {
     setPagination(prevState => {
@@ -29,16 +28,15 @@ const ProductList = () => {
   useEffect(() => {
     if((maxPages() !== page) && typeof products[page * maxItems] === 'undefined'){
       setPagination(prevState => {
-        const ret = {...prevState, page: maxPages}
+        const ret = {...prevState, page: maxPages()}
         return ret;
       });
     }
   });
 
   const maxPages = () => {
-    return Math.ceil(products.length / (maxItems)) - 1;
+    return products ? Math.ceil(products.length / (maxItems)) - 1 : 0;
   }
-
 
   const talbeRows = [];
   if(isEmpty(products)){
@@ -76,7 +74,7 @@ const ProductList = () => {
           <td>{item.price}</td>
           <td>
             <Link to={`/products/edit/${item.id}`}><ButtonIcon size="small" transparent icon='edit'>Edit</ButtonIcon></Link>
-            <button className='button button--sm'>
+            <button className='button button--sm' onClick={ ()=> deleteProduct(item.id)}>
               <div className='text'>Remove</div>
             </button>
           </td>
