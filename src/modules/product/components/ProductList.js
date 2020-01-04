@@ -11,17 +11,23 @@ import { Image } from 'components/image';
 import { Pagination } from 'components/pagination';
 
 const ProductList = () => {
-  const initProducts = {
+
+  const initPagination = {
     page: 0,
     maxItems: 3,
-    products: [
-      {id: '1',
+  }
+
+  const initProducts = [
+    {
+      id: '1',
       name: 'Babero',
       stock: '1',
       price: '2.20',
       promotionalPrice: '2.00',
-      images: []},
-      {id: '2',
+      images: []
+    },
+    {
+      id: '2',
       name: 'Pantalon',
       stock: '6',
       price: '12.70',
@@ -32,42 +38,48 @@ const ProductList = () => {
       stock: '1',
       price: '2.20',
       promotionalPrice: '2.00',
-      images: []},
-      {id: '4',
+      images: []
+    },
+    {
+      id: '4',
       name: 'Medias',
       stock: '6',
       price: '12.70',
       promotionalPrice: '10.00',
-      images: []},
-      {id: '5',
+      images: []
+    },
+    {
+      id: '5',
       name: 'Gorra',
       stock: '1',
       price: '6.00',
       promotionalPrice: '4.00',
-      images: []},
-      {id: '6',
+      images: []
+    },  
+    {
+      id: '6',
       name: 'Oleo',
       stock: '6',
       price: '12.70',
       promotionalPrice: '10.00',
-      images: []},      
-  ]
-  }
+      images: []
+    },
+  ];
 
-  const [productsState, setProducts] = useState(initProducts);
+  const [pagination, setPagination] = useState(initPagination);
+  const [products] = useState(initProducts);
+
+  const { page, maxItems } = pagination;
 
   const changePage = page => {
-    setProducts(prevState => {
+    setPagination(prevState => {
       return {...prevState, page};
     });
   }
 
   useEffect(() => {
-    const maxPages = productsState.maxPages;
-    const { products, page, maxItems } = productsState;    
-
-    if((maxPages !== page) && typeof products[page * maxItems] === 'undefined'){
-      setProducts(prevState => {
+    if((maxPages() !== page) && typeof products[page * maxItems] === 'undefined'){
+      setPagination(prevState => {
         const ret = {...prevState, page: maxPages}
         return ret;
       });
@@ -75,13 +87,11 @@ const ProductList = () => {
   });
 
   const maxPages = () => {
-    const { products, maxItems } = productsState;    
     return Math.ceil(products.length / (maxItems)) - 1;
   }
 
-  const { products, page, maxItems } = productsState;
-  const talbeRows = []
 
+  const talbeRows = [];
   if(isEmpty(products)){
     return (
       <div className="empty-list">
@@ -152,7 +162,7 @@ const ProductList = () => {
       </Grid>
 
       <div className="table--pagination">
-        <Pagination maxpage={maxPages()} page={productsState.page} changePage={changePage} />        
+        <Pagination maxpage={maxPages()} page={pagination.page} changePage={changePage} />        
       </div>
     </div>
   )
