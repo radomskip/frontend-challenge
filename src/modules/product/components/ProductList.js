@@ -8,6 +8,7 @@ import { Table } from 'components/table';
 import { Checkbox } from 'components/input';
 import { Button, ButtonIcon } from 'components/button';
 import { Image } from 'components/image';
+import { Pagination } from 'components/pagination';
 
 const ProductList = () => {
   const initProducts = {
@@ -76,23 +77,6 @@ const ProductList = () => {
   const maxPages = () => {
     const { products, maxItems } = productsState;    
     return Math.ceil(products.length / (maxItems)) - 1;
-  }
-
-  const paginationRender = () => {
-    debugger;
-    const numPages = maxPages();
-    const pages = [];
-    const { page } = productsState;
-    
-    for (let i = 0; i <= numPages; i++ ) {
-      pages.push(<Button outline={page === i} onClick={() => changePage(i)} className="mr--md">{i + 1}</Button>);
-    }
-
-    if(pages.length === 1) {
-      return null;
-    }
-
-    return pages;
   }
 
   const { products, page, maxItems } = productsState;
@@ -168,7 +152,7 @@ const ProductList = () => {
       </Grid>
 
       <div className="table--pagination">
-        {paginationRender()}
+        <Pagination maxpage={maxPages()} page={productsState.page} changePage={changePage} />        
       </div>
     </div>
   )
