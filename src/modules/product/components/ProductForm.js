@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 
 import { Grid } from 'components/grid';
@@ -6,8 +6,9 @@ import { Dropzone } from 'components/dropzone';
 import { InputGroup, Editor, InputGroupCurrencyIcon } from 'components/input';
 import { Button } from 'components/button';
 
-class ProductForm extends Component {
-  state = {
+const ProductForm = (props) => {
+
+  const emptyState = {
     inputValidation: {
       name: false,
       description: false,
@@ -22,23 +23,27 @@ class ProductForm extends Component {
     stock: ''
   };
 
-  inputChange = e => {
+  const [ product, setProduct] = useState(emptyState);  
+
+  const inputChange = e => {
     const { value, name } = e.target;
     this.onChange(name, value);
   }
 
-  onChange = (name, value )=> {
-    const state = this.state;
+  const onChange = e => {
+    const { value, name } = e.target;
+    const state = product;
     state[name] = value;
-    this.setState(state);
+    setProduct(...state);
   }
 
-  backToListing = () => {
-    this.props.history.push('/products') 
+  const backToListing = () => {
+    props.history.push('/products') 
   }
 
-  validateForm() {
-    const state = this.state;
+  const validateForm = () => {
+
+    const state = product;
     let validate = true;
 
     for(var key in state.inputValidation) {
@@ -53,84 +58,90 @@ class ProductForm extends Component {
       }
     }
 
-    this.setState(state);
+    setProduct(state);
     return validate;
   }
 
-  get renderActionButtons() {
-    const { id } = this.state;
+  const renderActionButtons = () => {
+    const { id } = product;
     if(id) {
       return (
         <React.Fragment>
           <Button size="small">SAVE UPDATES</Button>
           <Button size="small" type="danger" className="ml--lg">REMOVE</Button>
-          <Button size="small" onClick={this.backToListing} className="ml--lg" outline>CANCEL</Button>
+          <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <Button size="small">SAVE PRODUCT</Button>
+          <Button size="small" onClick={ () => console.log(product) } >SAVE PRODUCT</Button>
           <Button size="small" className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     }
   }
   
+  
+  /*
   componentDidMount() {
-    const { params } = this.props.match;
+    const { params } = props.match;
   }
+  */
 
-  render() {
-    const { id, description, name, price, stock, promotionalPrice, images, inputValidation } = this.state;
+  const dropImage = (param) => {
+      console.log(param);
+  };
 
-    return (
-      <div>
-        <Grid transparent className='image--selection'>
-          <label>Fotos dos seus produtos</label>
-          <div className='col-1-4'>
-            <Dropzone value={images[0]} index={0} onDrop={this.dropImage}/>
-          </div>
-          <div className='col-1-4'>
-            <Dropzone value={images[1]} index={1} onDrop={this.dropImage}/>
-          </div>
-          <div className='col-1-4'>
-            <Dropzone value={images[2]} index={2} onDrop={this.dropImage}/>
-          </div>
-          <div className='col-1-4'>
-            <Dropzone value={images[3]} index={3} onDrop={this.dropImage}/>
-          </div>
-        </Grid>
+  const { id, description, name, price, stock, promotionalPrice, images, inputValidation } = product;
 
-        <Grid block>
-          <div>
-            <InputGroup value={name} validate={inputValidation} onChange={this.inputChange} label="Name" name="name" placeholder="Ex: Chaveiro de plástico de Budha"/>
-            <Editor value={description} validate={inputValidation} onChange={this.onChange} label="Description" name="description"/> 
-          </div>
+  return (
+    <div>
+      <Grid transparent className='image--selection'>
+        <label>Fotos dos seus produtos</label>
+        <div className='col-1-4'>
+          <Dropzone value={images[0]} index={0} onDrop={(e) => dropImage(e)}/>
+        </div>
+        <div className='col-1-4'>
+          <Dropzone value={images[1]} index={1} onDrop={(e) => dropImage(e)}/>
+        </div>
+        <div className='col-1-4'>
+          <Dropzone value={images[2]} index={2} onDrop={(e) => dropImage(e)}/>
+        </div>
+        <div className='col-1-4'>
+          <Dropzone value={images[3]} index={3} onDrop={(e) => dropImage(e)}/>
+        </div>
+      </Grid>
 
-        </Grid>
+      <Grid block>
+        <div>
+          <InputGroup value={name} validate={inputValidation} onChange={(e) => inputChange(e)} label="Name" name="name" placeholder="Ex: Chaveiro de plástico de Budha"/>
+          <Editor value={description} validate={inputValidation} onChange={(e) => onChange(e)} label="Description" name="description"/> 
+        </div>
+
+      </Grid>
 
 
-        <Grid block>
+      <Grid block>
+      <div className="col-1-4">
+          <InputGroupCurrencyIcon validate={inputValidation} value={price} onChange={(e) => inputChange(e)} name="price" label="Original Price" icon="$" placeholder="0,00"/>
+        </div>
+
         <div className="col-1-4">
-            <InputGroupCurrencyIcon validate={inputValidation} value={price} onChange={this.inputChange} name="price" label="Original Price" icon="$" placeholder="0,00"/>
-          </div>
+          <InputGroupCurrencyIcon validate={inputValidation} value={promotionalPrice} onChange={(e) => inputChange(e)} name="promotionalPrice" label="Promocional Price" icon="$" placeholder="0,00"/>
+        </div>
+        
+        <div className="col-1-4">
+          <InputGroup validate={inputValidation} value={stock} onChange={(e) => inputChange(e)} type="number" name="stock" label="Stock"/>
+        </div>
+      </Grid>
 
-          <div className="col-1-4">
-            <InputGroupCurrencyIcon validate={inputValidation} value={promotionalPrice} onChange={this.inputChange} name="promotionalPrice" label="Promocional Price" icon="$" placeholder="0,00"/>
-          </div>
-          
-          <div className="col-1-4">
-            <InputGroup validate={inputValidation} value={stock} onChange={this.inputChange} type="number" name="stock" label="Stock"/>
-          </div>
-        </Grid>
+      <Grid transparent nopadding className="mt--lg">
+        {renderActionButtons()}
+      </Grid>
+    </div>
+  )
 
-        <Grid transparent nopadding className="mt--lg">
-          {this.renderActionButtons}
-        </Grid>
-      </div>
-    )
-  }
 }
 
 export default ProductForm;
