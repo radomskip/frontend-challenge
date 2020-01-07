@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import isEmpty from 'lodash/isEmpty';
-
+import { ProductContext } from 'contexts';
 import { Grid } from 'components/grid';
 import { Dropzone } from 'components/dropzone';
 import { InputGroup, Editor, InputGroupCurrencyIcon } from 'components/input';
@@ -23,18 +23,17 @@ const ProductForm = (props) => {
     stock: ''
   };
 
-  const [ product, setProduct] = useState(emptyState);  
+  const [product, setProduct] = useState(emptyState);
+  const {products, dispatch} = useContext(ProductContext);  
 
   const inputChange = e => {
     const { value, name } = e.target;
-    this.onChange(name, value);
+    onChange(name, value);
   }
 
-  const onChange = e => {
-    const { value, name } = e.target;
-    const state = product;
-    state[name] = value;
-    setProduct(...state);
+  const onChange = (name, value) => {
+    product[name] = value;
+    setProduct(Object.assign({}, product));
   }
 
   const backToListing = () => {
@@ -75,19 +74,22 @@ const ProductForm = (props) => {
     } else {
       return (
         <React.Fragment>
-          <Button size="small" onClick={ () => console.log(product) } >SAVE PRODUCT</Button>
-          <Button size="small" className="ml--lg" outline>CANCEL</Button>
+          <Button size="small" onClick={()=>console.log(product)} >SAVE PRODUCT</Button>
+          <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     }
   }
   
-  
-  /*
-  componentDidMount() {
-    const { params } = props.match;
-  }
-  */
+  useEffect(() => {
+    const { id } = props.match.params;
+    if (id) {
+      debugger;
+      const product = products.filter((p)=>p.id==id)[0];
+      setProduct(product);
+    }
+    
+  },[]);
 
   const dropImage = (param) => {
       console.log(param);
@@ -99,24 +101,17 @@ const ProductForm = (props) => {
     <div>
       <Grid transparent className='image--selection'>
         <label>Fotos dos seus produtos</label>
+        {images.map((image, i) => (
         <div className='col-1-4'>
-          <Dropzone value={images[0]} index={0} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={image} index={i} onDrop={(e) => dropImage(e)}/>
         </div>
-        <div className='col-1-4'>
-          <Dropzone value={images[1]} index={1} onDrop={(e) => dropImage(e)}/>
-        </div>
-        <div className='col-1-4'>
-          <Dropzone value={images[2]} index={2} onDrop={(e) => dropImage(e)}/>
-        </div>
-        <div className='col-1-4'>
-          <Dropzone value={images[3]} index={3} onDrop={(e) => dropImage(e)}/>
-        </div>
+        ))}
       </Grid>
 
       <Grid block>
         <div>
           <InputGroup value={name} validate={inputValidation} onChange={(e) => inputChange(e)} label="Name" name="name" placeholder="Ex: Chaveiro de plástico de Budha"/>
-          <Editor value={description} validate={inputValidation} onChange={(e) => onChange(e)} label="Description" name="description"/> 
+          <Editor value={description} validate={inputValidation} onChange={(name, value) => onChange(name, value)} label="Description" name="description"/> 
         </div>
 
       </Grid>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ProductContext } from 'contexts'
+import { ProductContext } from 'contexts';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { Grid } from 'components/grid';
