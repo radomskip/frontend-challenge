@@ -93,11 +93,9 @@ const ProductForm = (props) => {
   useEffect(() => {
     const { id } = props.match.params;
     if (id) {
-      debugger;
       const product = products.filter((p)=>p.id==id)[0];
       setProduct(product);
     }
-    
   },[]);
 
   const dropImage = (param) => {
