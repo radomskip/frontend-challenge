@@ -67,7 +67,11 @@ const ProductForm = (props) => {
       return (
         <React.Fragment>
           <Button size="small">SAVE UPDATES</Button>
-          <Button size="small" type="danger" className="ml--lg">REMOVE</Button>
+          <Button size="small"onClick={()=> {
+            debugger
+            dispatch({ type:'REMOVE_PRODUCT', id: product.id});
+            backToListing()
+            }} type="danger" className="ml--lg">REMOVE</Button>
           <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
@@ -101,11 +105,18 @@ const ProductForm = (props) => {
     <div>
       <Grid transparent className='image--selection'>
         <label>Fotos dos seus produtos</label>
-        {images.map((image, i) => (
         <div className='col-1-4'>
-          <Dropzone value={image} index={i} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={images[0]} index={0} onDrop={(e) => dropImage(e)}/>
         </div>
-        ))}
+        <div className='col-1-4'>
+          <Dropzone value={images[1]} index={1} onDrop={(e) => dropImage(e)}/>
+        </div>
+        <div className='col-1-4'>
+          <Dropzone value={images[2]} index={2} onDrop={(e) => dropImage(e)}/>
+        </div>
+        <div className='col-1-4'>
+          <Dropzone value={images[3]} index={3} onDrop={(e) => dropImage(e)}/>
+        </div>
       </Grid>
 
       <Grid block>
