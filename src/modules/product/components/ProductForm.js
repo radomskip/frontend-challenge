@@ -66,9 +66,11 @@ const ProductForm = (props) => {
     if(id) {
       return (
         <React.Fragment>
-          <Button size="small">SAVE UPDATES</Button>
-          <Button size="small"onClick={()=> {
-            debugger
+          <Button size="small" onClick={()=> {
+            dispatch({ type:'UPDATE_PRODUCT', product});
+            backToListing()
+            }}>SAVE UPDATES</Button>
+          <Button size="small" onClick={()=> {
             dispatch({ type:'REMOVE_PRODUCT', id: product.id});
             backToListing()
             }} type="danger" className="ml--lg">REMOVE</Button>
@@ -78,7 +80,10 @@ const ProductForm = (props) => {
     } else {
       return (
         <React.Fragment>
-          <Button size="small" onClick={()=>console.log(product)} >SAVE PRODUCT</Button>
+          <Button size="small" onClick={()=> {
+            dispatch({ type:'ADD_PRODUCT', product});
+            backToListing()
+            }} >SAVE PRODUCT</Button>
           <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
