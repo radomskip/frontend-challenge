@@ -17,12 +17,20 @@ class Dropzone extends PureComponent {
     })
   }
 
-  onDropHandler = (files) => {
-    // Refact - need to implement this
+  onDropHandler = (acceptedFiles) => {
+     acceptedFiles.forEach((file) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const binaryStr = reader.result;
+        this.setState({imageBase64 : binaryStr});
+        this.props.onDrop(binaryStr);
+      }
+      reader.readAsDataURL(file)
+    })
   }
 
   render() {
-    // Refact - need to implement this
+
     const { imageBase64 } = this.state;
     const { className, onDrop, style, ...props } = this.props;
     const classComponent = classname('dropzone', className,{
@@ -30,8 +38,9 @@ class Dropzone extends PureComponent {
     });    
 
     return (
-      <ReactDropzone className={classComponent} style={style}>
+      <ReactDropzone onDrop={this.onDropHandler} className={classComponent} style={style}>
         <i className='icon icon-photo' />
+        <img src={imageBase64} />
       </ReactDropzone>
     );
   }

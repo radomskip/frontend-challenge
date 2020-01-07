@@ -98,8 +98,10 @@ const ProductForm = (props) => {
     }
   },[]);
 
-  const dropImage = (param) => {
-      console.log(param);
+  const dropImage = (imageBase64, i ) => {
+      const prod = Object.assign({},product);
+      prod.images[i] = imageBase64; 
+      setProduct(prod);
   };
 
   const { id, description, name, price, stock, promotionalPrice, images, inputValidation } = product;
@@ -109,16 +111,16 @@ const ProductForm = (props) => {
       <Grid transparent className='image--selection'>
         <label>Fotos dos seus produtos</label>
         <div className='col-1-4'>
-          <Dropzone value={images[0]} index={0} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={images[0]} index={0} onDrop={(e) => dropImage(e, 0)}/>
         </div>
         <div className='col-1-4'>
-          <Dropzone value={images[1]} index={1} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={images[1]} index={1} onDrop={(e) => dropImage(e, 1)}/>
         </div>
         <div className='col-1-4'>
-          <Dropzone value={images[2]} index={2} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={images[2]} index={2} onDrop={(e) => dropImage(e, 2)}/>
         </div>
         <div className='col-1-4'>
-          <Dropzone value={images[3]} index={3} onDrop={(e) => dropImage(e)}/>
+          <Dropzone value={images[3]} index={3} onDrop={(e) => dropImage(e, 3)}/>
         </div>
       </Grid>
 
