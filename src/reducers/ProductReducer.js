@@ -13,7 +13,7 @@ export const ProductReducer = (state, action) => {
                     return product;    
             })
         case 'REMOVE_PRODUCT' :
-            return state.filter(product => product.id !== action.id)
+            return state.filter(product => product.id !== action.product.id)
         default :
             return state
     }

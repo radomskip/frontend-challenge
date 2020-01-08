@@ -22,6 +22,8 @@ const ProductList = () => {
   }
 
   useEffect(() => {
+    console.log('ProductList - useEffect')
+    console.log(products)
     if((maxPages() !== page) && typeof products[page * maxItems] === 'undefined'){
       setPagination(prevState => {
         const ret = {...prevState, page: maxPages()}
@@ -70,7 +72,7 @@ const ProductList = () => {
           <td>{item.price}</td>
           <td>
             <Link to={`/products/edit/${item.id}`}><ButtonIcon size="small" transparent icon='edit'>Edit</ButtonIcon></Link>
-            <button className='button button--sm' onClick={ () => dispatch({ type:'REMOVE_PRODUCT', id: item.id})}>
+            <button className='button button--sm' onClick={ () => dispatch({ type:'REMOVE_PRODUCT', product: item})}>
               <div className='text'>Remove</div>
             </button>
           </td>

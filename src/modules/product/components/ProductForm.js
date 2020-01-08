@@ -9,12 +9,6 @@ import { Button } from 'components/button';
 const ProductForm = (props) => {
 
   const emptyState = {
-    inputValidation: {
-      name: false,
-      description: false,
-      price: false,
-      stock: false
-    },
     images: [],
     name: '',
     description: '',
@@ -23,7 +17,16 @@ const ProductForm = (props) => {
     stock: ''
   };
 
+  const [inputValidation, setInputValidation] = useState({
+    name: false,
+    description: false,
+    price: false,
+    stock: false,
+    promotionalPrice: false
+  });
+
   const [product, setProduct] = useState(emptyState);
+  //const [inputValidation] = useState()
   const {products, dispatch} = useContext(ProductContext);  
 
   const inputChange = e => {
@@ -32,8 +35,12 @@ const ProductForm = (props) => {
   }
 
   const onChange = (name, value) => {
-    product[name] = value;
-    setProduct(Object.assign({}, product));
+
+    const invalid = (isEmpty(value) || value === '<p></p>');
+
+    setProduct(Object.assign({}, product, { [name]:value } ));
+    setInputValidation(Object.assign({}, inputValidation, { [name]:invalid }));
+
   }
 
   const backToListing = () => {
@@ -42,49 +49,51 @@ const ProductForm = (props) => {
 
   const validateForm = () => {
 
-    const state = product;
+    const state = Object.assign({}, inputValidation);
     let validate = true;
 
-    for(var key in state.inputValidation) {
-      if(state.inputValidation.hasOwnProperty(key)) {
-        const invalid = (isEmpty(state[key]) || state[key] === '<p></p>');
-    
-        state.inputValidation[key] = invalid;
-
+    for(var key in state) {
+      if(state.hasOwnProperty(key)) {
+        const invalid = (isEmpty(product[key]) || product[key] === '<p></p>');
+        state[key] = invalid;
         if(invalid) {
           validate = false
         }
       }
     }
 
-    setProduct(state);
+    setInputValidation(state);
     return validate;
   }
 
+  const actionProduct = ( type, validation = true ) => {
+    if (validation && !validateForm() ) {
+      alert('Debe completar todos los datos');
+    } else {
+      dispatch({type, product});
+      backToListing()
+    }
+  }
+  
+  const deleteProduct = () => {
+      actionProduct('REMOVE_PRODUCT', false)
+  }
+  
   const renderActionButtons = () => {
     const { id } = product;
     if(id) {
       return (
         <React.Fragment>
-          <Button size="small" onClick={()=> {
-            dispatch({ type:'UPDATE_PRODUCT', product});
-            backToListing()
-            }}>SAVE UPDATES</Button>
-          <Button size="small" onClick={()=> {
-            dispatch({ type:'REMOVE_PRODUCT', id: product.id});
-            backToListing()
-            }} type="danger" className="ml--lg">REMOVE</Button>
-          <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
+          <Button size="small" onClick={()=> actionProduct('UPDATE_PRODUCT') }>SAVE UPDATES</Button>
+          <Button size="small" onClick={deleteProduct} type="danger" className="ml--lg">REMOVE</Button>
+          <Button size="small" onClick={()=> backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <Button size="small" onClick={()=> {
-            dispatch({ type:'ADD_PRODUCT', product});
-            backToListing()
-            }} >SAVE PRODUCT</Button>
-          <Button size="small" onClick={()=>backToListing()} className="ml--lg" outline>CANCEL</Button>
+          <Button size="small" onClick={()=> actionProduct('ADD_PRODUCT') }>SAVE PRODUCT</Button>
+          <Button size="small" onClick={()=> backToListing()} className="ml--lg" outline>CANCEL</Button>
         </React.Fragment>
       )
     }
@@ -102,7 +111,7 @@ const ProductForm = (props) => {
       console.log(param);
   };
 
-  const { id, description, name, price, stock, promotionalPrice, images, inputValidation } = product;
+  const { id, description, name, price, stock, promotionalPrice, images } = product;
 
   return (
     <div>
