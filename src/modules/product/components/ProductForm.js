@@ -26,7 +26,6 @@ const ProductForm = (props) => {
   });
 
   const [product, setProduct] = useState(emptyState);
-  //const [inputValidation] = useState()
   const {products, dispatch} = useContext(ProductContext);  
 
   const inputChange = e => {

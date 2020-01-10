@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import { ProductList, ProductForm } from 'modules/product';
 import { Logged, External } from 'components/layout';
-import { ProductContextProvider } from 'contexts'
+import { ProductContextProvider, AuthContextProvider } from 'contexts';
+import { LoginForm } from 'modules/app';
 
 const Routing = () => (
   <Switch>   
@@ -30,7 +31,15 @@ const Routing = () => (
       </Logged>
     )} />
 
-    <Redirect to={"/products"} />
+    <Route exact path={'/login'} render={routerProps => (
+      <External>
+        <AuthContextProvider>
+          <LoginForm {...routerProps}></LoginForm>
+        </AuthContextProvider>
+      </External>
+    )} />
+
+    <Redirect to={"/login"} />
   </Switch>
 )
 
