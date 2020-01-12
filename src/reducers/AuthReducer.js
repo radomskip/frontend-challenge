@@ -1,15 +1,14 @@
-import {generateId} from '../modules/product/helper'
-
 export const AuthReducer = (state, action) => {
+
+    const {user} = action
    
     switch(action.type) {
         case 'DO_LOGIN' :
-            debugger
-            const obj = Object.assign({}, state,{'name':action.value.name})
+            const obj = Object.assign({}, state, {user})
             return obj
         case 'DO_LOGOUT' :
-            return Object.assign({}, state,{'name':null}) // TODO erase directly name
+            return Object.assign({}, state,{'user':null}) // TODO erase directly name
         default :
-            return state
+            return {...state}
     }
 }

@@ -22,15 +22,13 @@ const ProductList = () => {
   }
 
   useEffect(() => {
-    console.log('ProductList - useEffect')
-    console.log(products)
-    if((maxPages() !== page) && typeof products[page * maxItems] === 'undefined'){
+    if((maxPages() !== page) && (products.length > 0) && typeof products[page * maxItems] === 'undefined'){
       setPagination(prevState => {
         const ret = {...prevState, page: maxPages()}
         return ret;
       });
     }
-  });
+  },[page, products]);
 
   const maxPages = () => {
     return products ? Math.ceil(products.length / (maxItems)) - 1 : 0;

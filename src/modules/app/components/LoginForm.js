@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from 'contexts';
 import { InputGroup } from 'components/input';
 import { Button } from 'components/button';
@@ -16,7 +16,7 @@ const LoginForm = (props) => {
         pass: ''
     });
 
-    const {auth, dispatch} = useContext(AuthContext);  
+    const {dispatch} = useContext(AuthContext);  
 
     const inputChange = e => {
         const { value, name } = e.target;
@@ -59,9 +59,8 @@ const LoginForm = (props) => {
         if (!validateForm() ) {
             alert('Debe completar todos los datos');
         } else {
-            alert('Bienvenido !' + user.name);
-            dispatch({type: 'DO_LOGIN', value:user});
-            goToProducts();
+            const any = dispatch({type: 'DO_LOGIN', user});
+            setTimeout(goToProducts, 500);
         }
     }
         

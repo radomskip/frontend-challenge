@@ -34,7 +34,7 @@ const Routing = () => (
     <Route exact path={'/login'} render={routerProps => (
       <External>
         <AuthContextProvider>
-          <LoginForm {...routerProps}></LoginForm>
+          <LoginForm {...routerProps} />
         </AuthContextProvider>
       </External>
     )} />

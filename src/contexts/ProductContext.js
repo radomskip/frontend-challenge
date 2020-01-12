@@ -4,7 +4,6 @@ import {ProductReducer} from 'reducers';
 export const ProductContext = createContext();
 
 const ProductContextProvider = (props) => {
-
  
     const [products, dispatch] = useReducer(ProductReducer,{},()=>{
         const localData = localStorage.getItem('products');

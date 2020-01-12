@@ -1,17 +1,16 @@
 import React, { createContext, useReducer, useEffect } from 'react';
 import {AuthReducer} from 'reducers';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
  
     const [auth, dispatch] = useReducer(AuthReducer,{},()=>{
         const localData = localStorage.getItem('auth');
-        return localData ? JSON.parse(localData) :{};
+        return localData ? JSON.parse(localData) : { user: {}};
     })
-    debugger
     useEffect(() => {
-        debugger
+        console.log('aaaaaaa')
         localStorage.setItem('auth', JSON.stringify(auth));
     }) 
 
@@ -23,4 +22,4 @@ const AuthContextProvider = (props) => {
 
 }
  
-export {AuthContext, AuthContextProvider};
+export default AuthContextProvider;

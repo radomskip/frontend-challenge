@@ -7,7 +7,7 @@ export const ProductReducer = (state, action) => {
             return [...state, action.product]
         case 'UPDATE_PRODUCT' :
             return state.map(product => {
-                if (product.id == action.product.id)
+                if (product.id === action.product.id)
                     return action.product;
                 else
                     return product;    
