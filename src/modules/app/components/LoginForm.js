@@ -60,7 +60,7 @@ const LoginForm = (props) => {
             alert('Debe completar todos los datos');
         } else {
             const any = dispatch({type: 'DO_LOGIN', user});
-            setTimeout(goToProducts, 500);
+            setTimeout(goToProducts, 0);
         }
     }
         
